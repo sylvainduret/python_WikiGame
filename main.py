@@ -1,16 +1,15 @@
 # coding: utf-8
-import os
-import tkinter
-from tkinter import *
+import urllib
+from bs4 import BeautifulSoup
+import urllib.request
 
 if __name__ == '__main__':
-    l=["coucou","compté du danmark de mes 2","ok pt'it test tranquillou","fred le 100"]
-    fenetre= tkinter.Tk()
-    test ='tsfdhgjvgnfbvdfsq'
-    #label =tkinter.Label(fenetre,text="Bonjour voici votre Objectif!").pack()
-    for i in range(0,len(l)):
-        bouton=tkinter.Button(fenetre, text=l[i]).pack(side=LEFT)
+    pageDeDepart='https://fr.wikipedia.org/wiki/Sp%C3%A9cial:Page_au_hasard'
+    with urllib.request.urlopen(pageDeDepart) as response:
+        print(pageDeDepart)
+        webpage = response.read()
+        soup = BeautifulSoup(webpage, 'html.parser')
+        pageDeDepart = soup.select("[rel='canonical']")[0]['href']
+        for a in soup.select('.mw-parser-output p a'):
 
-
-    #bouton=tkinter.Button(fenetre, text="New Game", command=fenetre.).pack()
-    fenetre.mainloop()
+            print(a['href'])
